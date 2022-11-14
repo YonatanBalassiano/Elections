@@ -24,4 +24,5 @@ public:
 private:
     Graph mGraph;
     vector<Agent> mAgents;
+    vector<int> coalitionCounter;
 };
