@@ -12,7 +12,15 @@ Simulation::Simulation(Graph graph, vector<Agent> agents) : mGraph(graph), mAgen
 
 void Simulation::step()
 {
-    // TODO: implement this method
+    auto &temp = *this;
+
+    mGraph.partiesStep(temp);
+
+    for (int i = 0; i < mAgents.size(); i++)
+    {
+        mAgents[i].step(temp);
+    }
+    
 }
 
 bool Simulation::shouldTerminate() const
