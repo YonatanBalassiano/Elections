@@ -7,7 +7,20 @@ Simulation::Simulation(Graph graph, vector<Agent> agents) : mGraph(graph), mAgen
 
 void Simulation::step()
 {
-    // TODO: implement this method
+    const vector<Party> &Parties = mGraph.getAllPartires();
+    for (int i=0;i<Parties.size();i++) {
+        switch(Parties[i].getState()){
+            case CollectingOffers:
+                Parties[i].step(&this);
+                break;
+            case Waiting:
+                Parties[i].step(&this);
+                break;
+        }
+    }
+    for (int i=0;i<mAgents.size();i++){
+        mAgents[i].step(&this);
+    }
 }
 
 bool Simulation::shouldTerminate() const
