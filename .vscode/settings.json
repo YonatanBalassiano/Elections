@@ -1,9 +1,5 @@
 {
     "files.associations": {
-        "vector": "cpp",
-        "new": "cpp",
-        "memory": "cpp",
-        "istream": "cpp",
-        "functional": "cpp"
+        "vector": "cpp"
     }
 }
