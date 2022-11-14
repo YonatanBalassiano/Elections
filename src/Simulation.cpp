@@ -1,8 +1,13 @@
 #include "Simulation.h"
+#include <vector>
+#include <map>
 
 Simulation::Simulation(Graph graph, vector<Agent> agents) : mGraph(graph), mAgents(agents) 
 {
-    // You can change the implementation of the constructor, but not the signature!
+   for(int i =0; i<mAgents.size();i++){
+    //push into the vector the amount of mandats per coalition.
+    coalitionCounter.push_back(mGraph.getParty(mAgents[i].getPartyId()).getMandates());
+   } 
 }
 
 void Simulation::step()
@@ -12,8 +17,15 @@ void Simulation::step()
 
 bool Simulation::shouldTerminate() const
 {
-    // TODO implement this method
-    return true;
+    //check every coalition for having more then 60 mandats
+    for (int i =0; i<coalitionCounter.size();i++){
+        if (coalitionCounter[i] > 60)
+        return true;
+    }
+
+    //check if every Party has an agent -> all parties is joined
+    return mAgents.size() == mGraph.getNumVertices();
+      
 }
 
 const Graph &Simulation::getGraph() const
