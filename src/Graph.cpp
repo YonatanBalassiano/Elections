@@ -30,3 +30,7 @@ void Graph:: partiesStep(Simulation &s){
         mVertices[i].step(s);
     }
 }
+
+const vector<Party> &Graph :: getAllParties() const{
+    return mVertices;
+}
