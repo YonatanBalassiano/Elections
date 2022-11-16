@@ -3,7 +3,14 @@
 #include <vector>
 #include "Graph.h"
 
+using std::vector;
+
+
+
 class SelectionPolicy;
+class Simulation;
+class Party;
+
 
 class Agent
 {

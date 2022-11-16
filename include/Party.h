@@ -37,5 +37,4 @@ private:
     State mState;
     int iter = -1; 
     Agent *offers[3] = {nullptr};
-    vector<Agent> affers2;
 };

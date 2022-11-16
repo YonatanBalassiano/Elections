@@ -1,8 +1,11 @@
 #include "Agent.h"
 #include "SelectionPolicy.h"
 #include "Simulation.h"
+#include "Party.h"
 #include <vector>
 #include <algorithm>    
+
+using std::vector;
 
 
 
@@ -91,7 +94,6 @@ void Agent::step(Simulation &sim)
        
         }
     }
-    
 
 }
 
@@ -100,11 +102,11 @@ void MandatesSelectionPolicy :: sortParties(vector<Party> parties , Simulation &
 }
 void EdgeWeightSelectionPolicy :: sortParties(vector<Party> parties , Simulation &sim)  {
     const Graph &tempGraph = sim.getGraph();
-    sort(parties.begin(), parties.end(),[](Party party1, Party party2,int mPartyId,Graph &tempGraph){ 
-        int a = tempGraph.getEdgeWeight(party1.getId(),mPartyId);
-        int b = tempGraph.getEdgeWeight(party2.getId(), mPartyId);
-        return a>=b;
-     });
+    // sort(parties.begin(), parties.end(),[](Party party1, Party party2,int mPartyId,Graph &tempGraph){ 
+    //     int a = tempGraph.getEdgeWeight(party1.getId(),mPartyId);
+    //     int b = tempGraph.getEdgeWeight(party2.getId(), mPartyId);
+    //     return a>=b;
+    //  });
 }
 
 
