@@ -7,6 +7,7 @@ Simulation::Simulation(Graph graph, vector<Agent> agents) : mGraph(graph), mAgen
    for(int i =0; i<mAgents.size();i++){
     //push into the vector the amount of mandats per coalition.
     coalitionCounter.push_back(mGraph.getParty(mAgents[i].getPartyId()).getMandates());
+    mAgents[i].setCoalition(i);
    } 
 }
 
@@ -55,6 +56,25 @@ const Party &Simulation::getParty(int partyId) const
 /// At the simulation initialization - the result will be [[agent0.partyId], [agent1.partyId], ...]
 const vector<vector<int>> Simulation::getPartiesByCoalitions() const
 {
+    vector<vector<int>> coalition = vector<vector<int>>();
+    for(int i = 0; i<mAgents.size(); i++){
+        for (int j = 0; j<coalitionCounter.size();j++){
+            int partyId = mAgents[j].getPartyId();
+            coalition.push_back(vector<int>(partyId));
+            i++;
+        }
+        int coalitionNum = mAgents[i].getCoalition();
+        int partyId = mAgents[i].getPartyId();
+        coalition[coalitionNum].push_back(partyId);
+    }
     // TODO: you MUST implement this method for getting proper output, read the documentation above.
-    return vector<vector<int>>();
+    return coalition;
+}
+
+int Simulation::getNumOfAgent(){
+    return mAgents.size();
+}
+
+void Simulation::addAgent(Agent &agent){
+    mAgents.push_back(agent);
 }

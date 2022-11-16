@@ -1,10 +1,13 @@
 #pragma once
 #include <string>
 
+
+
 using std::string;
 
 class JoinPolicy;
 class Simulation;
+class Agent;
 
 enum State
 {
@@ -23,6 +26,8 @@ public:
     int getMandates() const;
     void step(Simulation &s);
     const string &getName() const;
+    int getId(); 
+    bool setOffer(Agent &agent);
 
 private:
     int mId;
@@ -30,4 +35,6 @@ private:
     int mMandates;
     JoinPolicy *mJoinPolicy;
     State mState;
+    int iter = -1; 
+    Agent *offers[3];
 };
