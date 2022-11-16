@@ -16,6 +16,8 @@ class Agent
 {
 public:
     Agent(int agentId, int partyId, SelectionPolicy *selectionPolicy);
+    Agent(const Agent &);
+
 
     int getPartyId() const;
     int getId() const;

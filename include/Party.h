@@ -1,6 +1,5 @@
 #pragma once
 #include <string>
-#include "Agent.h"
 
 
 
@@ -8,6 +7,7 @@ using std::string;
 
 class JoinPolicy;
 class Simulation;
+class Agent;
 
 enum State
 {
@@ -36,5 +36,5 @@ private:
     JoinPolicy *mJoinPolicy;
     State mState;
     int iter = -1; 
-    Agent *offers[3] = {nullptr};
+    Agent *offers[3];
 };

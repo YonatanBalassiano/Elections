@@ -15,6 +15,7 @@ public:
     void partiesStep(Simulation &s);
     const vector<Party> &getAllParties() const;
 
+
 private:
     vector<Party> mVertices;
     vector<vector<int>> mEdges;

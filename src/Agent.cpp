@@ -76,7 +76,7 @@ void Agent::step(Simulation &sim)
         //get hands on the first Party in the vector
         Party currParty = parties[0];
         parties.erase(parties.begin());
-        auto &tempAgent = *this;
+        Agent &tempAgent = *this;
         switch (currParty.getState())
         {
             case Joined:
@@ -100,13 +100,10 @@ void Agent::step(Simulation &sim)
 void MandatesSelectionPolicy :: sortParties(vector<Party> parties , Simulation &sim)  {
     sort(parties.begin(), parties.end(),[](Party party1, Party party2){return party1.getMandates()>=party2.getMandates();});
 }
+
 void EdgeWeightSelectionPolicy :: sortParties(vector<Party> parties , Simulation &sim)  {
     const Graph &tempGraph = sim.getGraph();
-    // sort(parties.begin(), parties.end(),[](Party party1, Party party2,int mPartyId,Graph &tempGraph){ 
-    //     int a = tempGraph.getEdgeWeight(party1.getId(),mPartyId);
-    //     int b = tempGraph.getEdgeWeight(party2.getId(), mPartyId);
-    //     return a>=b;
-    //  });
+    //sort vector 
 }
 
 

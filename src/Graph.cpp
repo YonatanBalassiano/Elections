@@ -1,5 +1,6 @@
 #include "Graph.h"
 
+
 Graph::Graph(vector<Party> vertices, vector<vector<int>> edges) : mVertices(vertices), mEdges(edges) 
 {
     // You can change the implementation of the constructor, but not the signature!
@@ -34,3 +35,4 @@ void Graph:: partiesStep(Simulation &s){
 const vector<Party> &Graph :: getAllParties() const{
     return mVertices;
 }
+
