@@ -1,6 +1,7 @@
 #include "Simulation.h"
 #include <vector>
 #include <map>
+#include <iostream>
 
 Simulation::Simulation(Graph graph, vector<Agent> agents) : mGraph(graph), mAgents(agents) 
 {
@@ -52,22 +53,30 @@ const Party &Simulation::getParty(int partyId) const
     return mGraph.getParty(partyId);
 }
 
+
+
 /// This method returns a "coalition" vector, where each element is a vector of party IDs in the coalition.
 /// At the simulation initialization - the result will be [[agent0.partyId], [agent1.partyId], ...]
 const vector<vector<int>> Simulation::getPartiesByCoalitions() const
 {
     vector<vector<int>> coalition = vector<vector<int>>();
-    for(int i = 0; i<mAgents.size(); i++){
-        for (int j = 0; j<coalitionCounter.size();j++){
-            int partyId = mAgents[j].getPartyId();
+
+    int index = 0; 
+    while (index<mAgents.size()){
+        if (index<coalitionCounter.size()){
+            int partyId = mAgents[index].getPartyId();
             coalition.push_back(vector<int>(partyId));
-            i++;
+            index++;
         }
-        int coalitionNum = mAgents[i].getCoalition();
-        int partyId = mAgents[i].getPartyId();
+        else{
+        int coalitionNum = mAgents[index].getCoalition();
+        int partyId = mAgents[index].getPartyId();
         coalition[coalitionNum].push_back(partyId);
+        }
     }
     // TODO: you MUST implement this method for getting proper output, read the documentation above.
+    std::cout << "return" << std::endl;
+
     return coalition;
 }
 
