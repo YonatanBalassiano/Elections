@@ -4,6 +4,7 @@
 #include "Party.h"
 #include <vector>
 #include <algorithm>    
+#include <iostream>
 
 using std::vector;
 
@@ -52,8 +53,14 @@ void Agent::step(Simulation &sim)
     if (parties.size()==0){
         //copy the parties to the agent DB
         const Graph &tempGraph = sim.getGraph();
-        const vector<Party> tempVector = tempGraph.getAllParties();
+        const vector<Party> &tempVector = tempGraph.getAllParties();
         vector<Party> partiesTemp(tempVector);
+        
+        // ----------------***--------------------
+        //maybe change the vector to pointers!!! 
+        //
+        // -----------------***-------------------
+
 
         //delete all of the non-partnership able parties
         for(int i = 0; i<partiesTemp.size();i++){
@@ -105,7 +112,14 @@ void MandatesSelectionPolicy :: sortParties(vector<Party> parties , Simulation &
 
 void EdgeWeightSelectionPolicy :: sortParties(vector<Party> parties , Simulation &sim)  {
     const Graph &tempGraph = sim.getGraph();
+
+    //use the vector as an array to sort
+    Party* array = &parties[0];
     //sort vector 
+
+    
+
+
 }
 
 
