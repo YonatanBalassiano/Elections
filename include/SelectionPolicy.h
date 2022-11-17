@@ -2,9 +2,7 @@
 
 class SelectionPolicy { 
     public:
-     int select();
-        virtual void sortParties(vector<Party> , Simulation &) = 0;
-
+        virtual int select(const Agent & , Simulation &)=0;
         virtual ~SelectionPolicy() = default;
 };
 
@@ -12,18 +10,16 @@ class MandatesSelectionPolicy: public SelectionPolicy{
     
     public:
         
-        int select();
-        void sortParties  (vector<Party> , Simulation &);
+        virtual int select(const Agent & , Simulation &);
 
-        ~ MandatesSelectionPolicy() = default;
+        virtual ~ MandatesSelectionPolicy() = default;
 };
 
 class EdgeWeightSelectionPolicy: public SelectionPolicy{ public:
     public:
         
-        int select();
-        void sortParties(vector<Party> , Simulation &);
+        virtual int select(const Agent & , Simulation &);
 
-        ~ EdgeWeightSelectionPolicy() = default;
+        virtual ~ EdgeWeightSelectionPolicy() = default;
     };
 

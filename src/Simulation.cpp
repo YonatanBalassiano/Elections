@@ -53,6 +53,15 @@ const Party &Simulation::getParty(int partyId) const
     return mGraph.getParty(partyId);
 }
 
+const int Simulation::getCoalitionSize(const int &coalition) {
+    return coalitionCounter[coalition];
+}
+
+void Simulation :: setOfferToPartyId(Agent & agent ,int id){
+    mGraph.setOfferToPartyId(agent, id);
+}
+
+
 
 
 /// This method returns a "coalition" vector, where each element is a vector of party IDs in the coalition.

@@ -2,22 +2,22 @@
 
 class JoinPolicy {
     public:
-        virtual Agent selectCoalition(Agent offers[3]) =0;
+        virtual Agent selectCoalition(const vector<Agent> &, Simulation &) const  =0;
 
         virtual ~JoinPolicy() = default;
 };
 
 class MandatesJoinPolicy : public JoinPolicy {
     public:
-         Agent selectCoalition(Agent offers[3]);
+         virtual Agent selectCoalition(const vector<Agent> &, Simulation &) const ;
 
-         ~MandatesJoinPolicy() = default;
+         virtual ~MandatesJoinPolicy() = default;
 };
 
 class LastOfferJoinPolicy : public JoinPolicy {
     public:
-         Agent selectCoalition(Agent offers[3]);
+         virtual Agent selectCoalition(const vector<Agent> &, Simulation &) const ;
         
-         ~LastOfferJoinPolicy() = default;
+         virtual ~LastOfferJoinPolicy() = default;
 
 };

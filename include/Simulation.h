@@ -22,6 +22,9 @@ public:
     const vector<vector<int>> getPartiesByCoalitions() const;
     int getNumOfAgent();
     void addAgent(Agent &);
+    const int getCoalitionSize(const int &)  ;
+    void setOfferToPartyId(Agent &,int);
+
 
 private:
     Graph mGraph;

@@ -2,6 +2,10 @@
 #include "JoinPolicy.h"
 #include "Simulation.h"
 #include "Agent.h"
+#include <vector>
+
+using std::vector;
+
 
 
 Party::Party(int id, string name, int mandates, JoinPolicy *jp) : mId(id), mName(name), mMandates(mandates), mJoinPolicy(jp), mState(Waiting) 
@@ -36,7 +40,8 @@ void Party::step(Simulation &s)
         iter = iter +1;
         if (iter == 3){
             //choose party
-            Agent selectedCoalition = mJoinPolicy->selectCoalition(*offers);
+            const vector<Agent> *temp = &offers;
+            Agent selectedCoalition = mJoinPolicy->selectCoalition(*temp, s);
 
             //copy agent
             Agent newAgent(selectedCoalition);
@@ -55,36 +60,43 @@ void Party::step(Simulation &s)
 }
 
 
-int Party:: getId(){
+int Party:: getId() const {
     return mId;
 }
 
-bool Party :: setOffer(Agent &agent){
+void Party :: setOffer(const Agent &agent){
     if (iter == -1){
         setState(CollectingOffers);
         iter = 0;
     }
+    offers.push_back(agent);
+}
+
+
+bool Party :: alreadyOffer(int coalition)const{
     bool isExist = false;
-    for(int i = 0; i<iter && !isExist; i++){
-        if(offers[i]->getCoalition() == agent.getCoalition()){isExist = true;}
+    for(int i = 0; i<offers.size() && !isExist; i++){
+        if(offers[i].getCoalition() == coalition){return true;}
     }
-    if (!isExist){offers[iter] = &agent;}
-
-    return isExist ? false : true;
-
+    return false;
 }
 
 
-Agent MandatesJoinPolicy :: selectCoalition(Agent *offers){
-    return offers[0];
-    //take the mandats by coalition array
-    //from the givven offers, return the one with the most mandats
+
+
+Agent MandatesJoinPolicy :: selectCoalition(const vector<Agent> &offers, Simulation &sim) const{
+    int max = 0;
+    for(int i = 0; i>offers.size()-1;i++){
+        if (sim.getCoalitionSize(offers[i].getCoalition())> 
+        sim.getCoalitionSize(offers[i+1].getCoalition())){
+            max = i+1;
+        }
+        return offers[i];
+    }
 
 }
 
-Agent LastOfferJoinPolicy :: selectCoalition(Agent *offers){
-    // for (int i = 2; i<=0 ;i++){
-    //     if (offers[i] == nullptr) {return offers[i];}
-    // }
-    return offers[0];
+Agent LastOfferJoinPolicy :: selectCoalition(const vector<Agent> &offers, Simulation &sim) const {
+    const Agent &maxAgent = offers[0];
+    return maxAgent;
 }

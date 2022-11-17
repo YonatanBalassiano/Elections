@@ -49,78 +49,101 @@ void Agent :: setAfterCopy(int selfId, int partyId){
 
 void Agent::step(Simulation &sim)
 {  
-    // if heavent done it yet, sort the parties accoding to selection policy
-    if (parties.size()==0){
-        //copy the parties to the agent DB
-        const Graph &tempGraph = sim.getGraph();
-        const vector<Party> &tempVector = tempGraph.getAllParties();
-        vector<Party> partiesTemp(tempVector);
-        
-        // ----------------***--------------------
-        //maybe change the vector to pointers!!! 
-        //
-        // -----------------***-------------------
+    int currSelection = mSelectionPolicy->select(*this,sim);
+    if (currSelection != -1){
+        Agent &a = *this;
+        sim.setOfferToPartyId(a,currSelection);
 
-
-        //delete all of the non-partnership able parties
-        for(int i = 0; i<partiesTemp.size();i++){
-            if(tempGraph.getEdgeWeight(partiesTemp[i].getId(),mPartyId)==0){
-                partiesTemp.erase(partiesTemp.begin()+i);
-            }
-        }
-
-        //sort the parties
-        mSelectionPolicy->sortParties(partiesTemp,sim);
-
-        parties = partiesTemp;
     }
-    bool madeOffer = false;
 
-    //select the next Party to make offer
+    
+}
 
-    while(!madeOffer & parties.size()>0){
-
-        //get hands on the first Party in the vector
-        Party currParty = parties[0];
-        parties.erase(parties.begin());
-        Agent &tempAgent = *this;
-        switch (currParty.getState())
+int MandatesSelectionPolicy ::select(const Agent &agent , Simulation &sim){
+    const Graph &gr = sim.getGraph();
+    const vector<Party> &parties = gr.getAllParties();
+    int output = -1; 
+    for(int i = 0; i<parties.size();i++){
+        switch (parties[i].getState())
         {
-            case Joined:
+        case Joined:
                 break;
-            case Waiting:
-                currParty.setOffer(tempAgent);
-                madeOffer = true;
-                break;
-            case CollectingOffers:
-                if (currParty.setOffer(tempAgent))
-                {
-                    madeOffer = true;
+        case Waiting:
+        if (output == -1 && gr.getEdgeWeight(parties[i].getId(),agent.getPartyId()) > 0)
+            {
+                output = i;
+            }
+            else if(gr.getEdgeWeight(parties[i].getId(),agent.getPartyId())>0 && 
+            parties[output].getMandates()<parties[i].getMandates()){
+                output=i;
+            }
+            break;   
+        case CollectingOffers:
+        if(output == -1 && gr.getEdgeWeight(parties[i].getId(),agent.getPartyId()) > 0 &&!parties[i].alreadyOffer(agent.getCoalition()))
+            {
+                output = i;
+            }
+            else if(gr.getEdgeWeight(parties[i].getId(),agent.getPartyId())>0 && 
+                parties[output].getMandates()<parties[i].getMandates() &&
+                !parties[i].alreadyOffer(agent.getCoalition())){
+                    output=i;
                 }
-                break;
-       
-        }
+            }
+            break;
     }
 
+    return output == -1 ? -1 : parties[output].getId();
+
 }
 
-//implement SelectionPolicy functions and destractors
+int EdgeWeightSelectionPolicy ::select(const Agent &agent , Simulation &sim){
+    const Graph &gr = sim.getGraph();
+    const vector<Party> &parties = gr.getAllParties();
+    int output = -1; 
+    for(int i = 0; i<parties.size();i++){
+        switch (parties[i].getState())
+        {
+        case Joined:
+                break;
+        case Waiting:
+            if (output == -1 && gr.getEdgeWeight(parties[i].getId(),agent.getPartyId()) > 0)
+            {
+                output = i;
+            }
+            else if(gr.getEdgeWeight(parties[i].getId(),agent.getPartyId()) > 
+            gr.getEdgeWeight(parties[output].getId(),agent.getPartyId()))
+            {
+            output=i;
+            } 
+                
+            break;   
+        case CollectingOffers:
+            if(output == -1 && gr.getEdgeWeight(parties[i].getId(),agent.getPartyId()) > 0 &&!parties[i].alreadyOffer(agent.getCoalition()))
+            {
+                output = i;
+            }
+            else if(gr.getEdgeWeight(parties[i].getId(),agent.getPartyId())>0 && 
+                parties[output].getMandates()<parties[i].getMandates() &&
+                !parties[i].alreadyOffer(agent.getCoalition())){
+                    output=i;
+                }
+            }
+            break;
+    }
 
-void MandatesSelectionPolicy :: sortParties(vector<Party> parties , Simulation &sim)  {
-    sort(parties.begin(), parties.end(),[](Party party1, Party party2){return party1.getMandates()>=party2.getMandates();});
+    return output == -1 ? -1 : parties[output].getId();
+
+
+
 }
 
-void EdgeWeightSelectionPolicy :: sortParties(vector<Party> parties , Simulation &sim)  {
-    const Graph &tempGraph = sim.getGraph();
 
-    //use the vector as an array to sort
-    Party* array = &parties[0];
-    //sort vector 
+
 
     
 
 
-}
+
 
 
 

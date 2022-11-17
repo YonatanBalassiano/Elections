@@ -30,6 +30,6 @@ private:
     int mAgentId;
     int mPartyId;
     SelectionPolicy *mSelectionPolicy;
-    vector<Party> parties;
+
     int coalition = 0; 
 };
