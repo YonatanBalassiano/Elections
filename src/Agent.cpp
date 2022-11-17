@@ -97,6 +97,8 @@ void Agent::step(Simulation &sim)
 
 }
 
+//implement SelectionPolicy functions and destractors
+
 void MandatesSelectionPolicy :: sortParties(vector<Party> parties , Simulation &sim)  {
     sort(parties.begin(), parties.end(),[](Party party1, Party party2){return party1.getMandates()>=party2.getMandates();});
 }
