@@ -28,7 +28,8 @@ const Party &Graph::getParty(int partyId) const
 }
 
 void Graph:: partiesStep(Simulation &s){
-    for(int i = 0; i<mVertices.size();i++){
+    int verticesSize = mVertices.size();
+    for(int i = 0; i<verticesSize;i++){
         mVertices[i].step(s);
     }
 }
@@ -40,4 +41,5 @@ const vector<Party> &Graph :: getAllParties() const{
 void Graph:: setOfferToPartyId(Agent &agent, int id) {
     mVertices[id].setOffer(agent);
 }
+
 

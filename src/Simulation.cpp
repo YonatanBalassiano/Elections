@@ -5,11 +5,13 @@
 
 Simulation::Simulation(Graph graph, vector<Agent> agents) : mGraph(graph), mAgents(agents) 
 {
-   for(int i =0; i<mAgents.size();i++){
+    int agentSize = mAgents.size();
+   for(int i =0; i<agentSize;i++){
     //push into the vector the amount of mandats per coalition.
     coalitionCounter.push_back(mGraph.getParty(mAgents[i].getPartyId()).getMandates());
     mAgents[i].setCoalition(i);
    } 
+
 }
 
 void Simulation::step()
@@ -17,8 +19,9 @@ void Simulation::step()
     auto &temp = *this;
 
     mGraph.partiesStep(temp);
-
-    for (int i = 0; i < mAgents.size(); i++)
+        
+    int agentSize = mAgents.size();
+    for (int i = 0; i < agentSize; i++)
     {
         mAgents[i].step(temp);
     }
@@ -28,14 +31,16 @@ void Simulation::step()
 bool Simulation::shouldTerminate() const
 {
     //check every coalition for having more then 60 mandats
-    for (int i =0; i<coalitionCounter.size();i++){
+    int coalitionNum = coalitionCounter.size();
+    for (int i =0; i<coalitionNum;i++){
         if (coalitionCounter[i] > 60)
         return true;
     }
-
-    //check if every Party has an agent -> all parties is joined
-    return mAgents.size() == mGraph.getNumVertices();
-      
+    
+    int size1 = mAgents.size();
+    int size2 = mGraph.getNumVertices();
+    return size1 == size2;
+    
 }
 
 const Graph &Simulation::getGraph() const
@@ -58,9 +63,13 @@ const int Simulation::getCoalitionSize(const int &coalition) {
 }
 
 void Simulation :: setOfferToPartyId(Agent & agent ,int id){
+    
     mGraph.setOfferToPartyId(agent, id);
 }
 
+const Agent & Simulation ::getAgentById(int id){
+    return mAgents[id];
+}
 
 
 
@@ -68,21 +77,17 @@ void Simulation :: setOfferToPartyId(Agent & agent ,int id){
 /// At the simulation initialization - the result will be [[agent0.partyId], [agent1.partyId], ...]
 const vector<vector<int>> Simulation::getPartiesByCoalitions() const
 {
-    vector<vector<int>> coalition = vector<vector<int>>();
+    vector<vector<int>> coalition (coalitionCounter.size(),vector<int>());
 
-    int index = 0; 
-    while (index<mAgents.size()){
-        if (index<coalitionCounter.size()){
-            int partyId = mAgents[index].getPartyId();
-            coalition.push_back(vector<int>(partyId));
-            index++;
-        }
-        else{
-        int coalitionNum = mAgents[index].getCoalition();
-        int partyId = mAgents[index].getPartyId();
+        int agentSize = mAgents.size();
+        for(int i = 0; i<agentSize;i++){
+
+        int coalitionNum = mAgents[i].getCoalition();
+        int partyId = mAgents[i].getPartyId();
         coalition[coalitionNum].push_back(partyId);
         }
-    }
+    
+    
     // TODO: you MUST implement this method for getting proper output, read the documentation above.
     std::cout << "return" << std::endl;
 
@@ -95,4 +100,8 @@ int Simulation::getNumOfAgent(){
 
 void Simulation::addAgent(Agent &agent){
     mAgents.push_back(agent);
+
+    //add mandats to coalition counter
+    const Party &party = mGraph.getParty(agent.getPartyId());
+    coalitionCounter[agent.getCoalition()] += party.getMandates();
 }

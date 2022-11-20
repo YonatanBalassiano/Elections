@@ -24,10 +24,12 @@ public:
     void addAgent(Agent &);
     const int getCoalitionSize(const int &)  ;
     void setOfferToPartyId(Agent &,int);
+    const Agent &getAgentById(int);
+
 
 
 private:
     Graph mGraph;
     vector<Agent> mAgents;
-    vector<int> coalitionCounter;
+    vector<int> coalitionCounter={};
 };
