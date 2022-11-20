@@ -1,6 +1,7 @@
 #include <iostream>
 #include <iomanip>
-#include "../include/Parser.h"
+#include "Parser.h"
+#include <iostream>
 
 using std::cout;
 using std::endl;
@@ -16,19 +17,23 @@ int main(int argc, char **argv)
     // read simulation from config file
     const string config_path = argv[1];
     Simulation simulation = Parser::readSimulation(argv[1]);
-
+    int i = 0;
     // run simulation and store json state after each iteration
     vector<json> outPerIter = {Parser::makeJson(simulation)};
     while (!simulation.shouldTerminate())
     {
+        std :: cout << "iter num" << i << std::endl;
         simulation.step();
+        std :: cout << "iter num" << i << "after simulation step" << std::endl;
         outPerIter.push_back(Parser::makeJson(simulation));
+        i++;
     }
-
+    std::cout << "iter has ended" << std::endl;
     // writing the outputs list to a file
     const string output_path = config_path.substr(0, config_path.find_last_of('.')) + ".out";
     std::ofstream outputFile(output_path);
     outputFile << std::setw(4) << json(outPerIter) << endl;
+    std::cout << "iter has ended close" << std::endl;
 
     return 0;
 }

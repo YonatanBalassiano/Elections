@@ -2,7 +2,11 @@
 #include <vector>
 #include "Party.h"
 
+
 using std::vector;
+
+class Simulation;
+
 
 class Graph
 {
@@ -14,6 +18,7 @@ public:
     const Party &getParty(int partyId) const;
     void partiesStep(Simulation &s);
     const vector<Party> &getAllParties() const;
+    void setOfferToPartyId(Agent &,int);
 
 
 private:

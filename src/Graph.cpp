@@ -1,4 +1,5 @@
 #include "Graph.h"
+#include "Simulation.h"
 
 
 Graph::Graph(vector<Party> vertices, vector<vector<int>> edges) : mVertices(vertices), mEdges(edges) 
@@ -27,7 +28,8 @@ const Party &Graph::getParty(int partyId) const
 }
 
 void Graph:: partiesStep(Simulation &s){
-    for(int i = 0; i<mVertices.size();i++){
+    int verticesSize = mVertices.size();
+    for(int i = 0; i<verticesSize;i++){
         mVertices[i].step(s);
     }
 }
@@ -35,4 +37,9 @@ void Graph:: partiesStep(Simulation &s){
 const vector<Party> &Graph :: getAllParties() const{
     return mVertices;
 }
+
+void Graph:: setOfferToPartyId(Agent &agent, int id) {
+    mVertices[id].setOffer(agent);
+}
+
 
