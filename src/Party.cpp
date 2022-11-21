@@ -21,12 +21,7 @@ Party:: Party(const Party &party):mId(party.mId), mName( party.mName), mMandates
     for(int i = 0; i<offersSize;i++){
         offers.push_back(party.offers[i]);
     }
-    if(party.mJoinPolicy->whoAmI()==0){
-        mJoinPolicy = new MandatesJoinPolicy();
-    }
-    else{
-        mJoinPolicy= new LastOfferJoinPolicy();
-    }
+    mJoinPolicy = party.mJoinPolicy->clone();
 }
 
 Party:: Party(Party &&other):mId(other.mId), mName(other.mName), mMandates(other.mMandates), mJoinPolicy(other.mJoinPolicy), mState(other.mState){
@@ -56,10 +51,14 @@ Party &Party :: operator=(const Party &other){
         mId = other.mId;
         mName = other.mName;
         mMandates = other.mMandates;
-        *mJoinPolicy = *other.mJoinPolicy;
+        mJoinPolicy = other.mJoinPolicy->clone();
         mState = other.mState;
         iter = other.iter;
-        offers = other.offers;
+
+        int offersSize = other.offers.size();
+        for(int i = 0; i<offersSize;i++){
+            offers.push_back(other.offers[i]);   
+        }
     }
     return *this;
 }
@@ -161,10 +160,10 @@ Agent  LastOfferJoinPolicy :: selectCoalition(const vector<int> &offers, Simulat
     return lastAgent;
 }
 
-int MandatesJoinPolicy :: whoAmI(){
-    return 0; 
+MandatesJoinPolicy* MandatesJoinPolicy ::clone(){
+    return new MandatesJoinPolicy(*this);
 }
 
-int LastOfferJoinPolicy :: whoAmI(){
-    return 1; 
+LastOfferJoinPolicy * LastOfferJoinPolicy ::clone(){
+        return new LastOfferJoinPolicy(*this);
 }

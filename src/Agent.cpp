@@ -18,15 +18,7 @@ Agent::Agent(int agentId, int partyId, SelectionPolicy *selectionPolicy) : mAgen
 Agent::Agent(const Agent &Agent): mAgentId(Agent.mAgentId) , mPartyId(Agent.mPartyId) , mSelectionPolicy(Agent.mSelectionPolicy)
 {
     // build the currect class
-    int type = Agent.mSelectionPolicy->whoAmI();
-    if (type == 0)
-    {
-        mSelectionPolicy = new MandatesSelectionPolicy();
-    }
-    else
-    {
-        mSelectionPolicy = new EdgeWeightSelectionPolicy();
-    }
+    mSelectionPolicy = Agent.mSelectionPolicy->clone();
     coalition = Agent.coalition;
 }
 
@@ -49,7 +41,7 @@ Agent &Agent :: operator=(const Agent &other){
     if(this!=&other){
         mAgentId = other.mAgentId;
         mPartyId = other.mPartyId;
-        *mSelectionPolicy = *other.mSelectionPolicy;
+        mSelectionPolicy = other.mSelectionPolicy->clone();
         coalition = other.coalition;
     }
     return *this;
@@ -183,13 +175,9 @@ int EdgeWeightSelectionPolicy ::select(const Agent &agent, Simulation &sim)
     return output == -1 ? -1 : parties[output].getId();
 }
 
-int MandatesSelectionPolicy ::whoAmI()
-{
-    return 0;
+MandatesSelectionPolicy* MandatesSelectionPolicy :: clone(){
+    return new MandatesSelectionPolicy(*this);
 }
-
-int EdgeWeightSelectionPolicy ::whoAmI()
-{
-    return 1;
+EdgeWeightSelectionPolicy* EdgeWeightSelectionPolicy :: clone(){
+    return new EdgeWeightSelectionPolicy(*this);
 }
-
