@@ -15,12 +15,12 @@ class Party;
 class Agent
 {
 public:
+
     Agent(int agentId, int partyId, SelectionPolicy *selectionPolicy);
     Agent(const Agent &);
     Agent(Agent &&);
     Agent &operator=(Agent &&other);
     Agent &operator=(const Agent &other);
-
     ~Agent();
 
 

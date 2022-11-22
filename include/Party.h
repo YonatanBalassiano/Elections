@@ -22,13 +22,13 @@ enum State
 class Party
 {
 public:
+
     Party() = default;
     Party(int id, string name, int mandates, JoinPolicy *); 
     Party(const Party &);
     Party(Party &&);
     Party &operator=(Party &&other);
     Party &operator=(const Party &other);
-
     ~Party();
 
 

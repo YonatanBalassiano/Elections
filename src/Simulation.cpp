@@ -86,10 +86,6 @@ const vector<vector<int>> Simulation::getPartiesByCoalitions() const
         int partyId = mAgents[i].getPartyId();
         coalition[coalitionNum].push_back(partyId);
         }
-    
-    
-    // TODO: you MUST implement this method for getting proper output, read the documentation above.
-    std::cout << "return" << std::endl;
 
     return coalition;
 }

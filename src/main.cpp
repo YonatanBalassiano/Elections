@@ -22,18 +22,13 @@ int main(int argc, char **argv)
     vector<json> outPerIter = {Parser::makeJson(simulation)};
     while (!simulation.shouldTerminate())
     {
-        std :: cout << "iter num" << i << std::endl;
         simulation.step();
-        std :: cout << "iter num" << i << "after simulation step" << std::endl;
         outPerIter.push_back(Parser::makeJson(simulation));
         i++;
     }
-    std::cout << "iter has ended" << std::endl;
     // writing the outputs list to a file
     const string output_path = config_path.substr(0, config_path.find_last_of('.')) + ".out";
     std::ofstream outputFile(output_path);
     outputFile << std::setw(4) << json(outPerIter) << endl;
-    std::cout << "iter has ended close" << std::endl;
-
     return 0;
 }

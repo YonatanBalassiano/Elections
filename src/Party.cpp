@@ -16,7 +16,6 @@ Party::Party(int id, string name, int mandates, JoinPolicy *jp) : mId(id), mName
 
 Party:: Party(const Party &party):mId(party.mId), mName( party.mName), mMandates(party.mMandates), mJoinPolicy(party.mJoinPolicy), mState(party.mState){
     iter = party.iter;
-
     int offersSize = party.offers.size();
     for(int i = 0; i<offersSize;i++){
         offers.push_back(party.offers[i]);
@@ -27,9 +26,7 @@ Party:: Party(const Party &party):mId(party.mId), mName( party.mName), mMandates
 Party:: Party(Party &&other):mId(other.mId), mName(other.mName), mMandates(other.mMandates), mJoinPolicy(other.mJoinPolicy), mState(other.mState){
     iter = other.iter;
     offers = other.offers;
-
     other.mJoinPolicy = nullptr;
-    
 }
 
 Party &Party :: operator=(Party &&other){
@@ -63,7 +60,8 @@ Party &Party :: operator=(const Party &other){
     return *this;
 }
 
-Party ::~Party(){
+Party ::~Party()
+{
     if(mJoinPolicy){delete mJoinPolicy;}
 }
 
@@ -92,26 +90,16 @@ void Party::step(Simulation &s)
     if (iter != -1){
         iter = iter +1;
         if (iter == 3){
-            //choose party
-            // const vector<Agent *> &temp = offers;
             Agent selectedCoalition = mJoinPolicy->selectCoalition(offers, s);
 
             //copy agent
             Agent newAgent(selectedCoalition);
             int agentId = s.getNumOfAgent();
             newAgent.setAfterCopy(agentId,mId);
-
-            //add mandats to coalition counter 
-
             s.addAgent(newAgent);
-            //change status
             setState(Joined);
-
         }
     }
-        // TODO: implement this method
-
-    // copy the agent to the simulation agent vector
 }
 
 int Party:: getId() const {
@@ -139,7 +127,7 @@ bool Party :: alreadyOffer(int coalition, Simulation &sim)const{
 
 
 
-// --------- JoinPolicy ----------
+// --------- JoinPolicy ----------//
 Agent  MandatesJoinPolicy :: selectCoalition(const vector<int> &offers, Simulation &sim) const{
     int max = 0;
     

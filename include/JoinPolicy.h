@@ -21,6 +21,4 @@ class LastOfferJoinPolicy : public JoinPolicy {
         virtual ~LastOfferJoinPolicy()=default;
         virtual LastOfferJoinPolicy* clone();
 
-
-
 };

@@ -17,7 +17,6 @@ Agent::Agent(int agentId, int partyId, SelectionPolicy *selectionPolicy) : mAgen
 
 Agent::Agent(const Agent &Agent): mAgentId(Agent.mAgentId) , mPartyId(Agent.mPartyId) , mSelectionPolicy(Agent.mSelectionPolicy)
 {
-    // build the currect class
     mSelectionPolicy = Agent.mSelectionPolicy->clone();
     coalition = Agent.coalition;
 }
@@ -178,6 +177,7 @@ int EdgeWeightSelectionPolicy ::select(const Agent &agent, Simulation &sim)
 MandatesSelectionPolicy* MandatesSelectionPolicy :: clone(){
     return new MandatesSelectionPolicy(*this);
 }
+
 EdgeWeightSelectionPolicy* EdgeWeightSelectionPolicy :: clone(){
     return new EdgeWeightSelectionPolicy(*this);
 }
