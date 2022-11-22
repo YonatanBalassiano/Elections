@@ -132,8 +132,8 @@ Agent  MandatesJoinPolicy :: selectCoalition(const vector<int> &offers, Simulati
     int max = 0;
     
     int offersSize = offers.size();
-    for(int i = 0; i>offersSize-1;i++){
-        if (sim.getCoalitionSize(sim.getAgentById(offers[i]).getCoalition())> 
+    for(int i = 0; i<offersSize-1;i++){
+        if (sim.getCoalitionSize(sim.getAgentById(offers[i]).getCoalition())< 
         sim.getCoalitionSize(sim.getAgentById(offers[i+1]).getCoalition())){
             max = i+1;
         }
