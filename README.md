@@ -5,7 +5,7 @@ Build a "Coalition run" program in which we were given a JSON file that holds th
 According to a set of rules, we perform a coalition run till we combine a valid government.
 
 Implement some basic c++ principles
--	Use of pointers ad references
+-	Use of pointers and references
 -	Memory management and memory leak
 -	Role of 5 for every class
 -	Abstract classes and Polymorphism
